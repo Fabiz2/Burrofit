@@ -79,7 +79,7 @@ public class AlunoController {
         }
 
         return ResponseEntity.ok("Matricula_Inativa");
-    
+
     }
 
 
