@@ -44,4 +44,43 @@ public class AlunoController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Aluno> deletar(@PathVariable Long id){
+        if (!repository.existsById(id)){
+            return ResponseEntity.notFound() .build();
+        }
+
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Aluno> procurarPorId(@PathVariable Long id){
+        Optional<Aluno> alunoExist = repository.findById(id);
+
+        if (alunoExist.isPresent()){
+            return ResponseEntity.ok(alunoExist.get());
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<String> verificarMatricula (@PathVariable Long id){
+        Optional<Aluno> alunoExist = repository.findById(id);
+
+        if (!alunoExist.isPresent()){
+            return ResponseEntity.noContent().build();
+        }
+
+        if (alunoExist.get().getMatriculaAtiva()) {
+            return ResponseEntity.ok("Matricula_Ativa");
+        }
+
+        return ResponseEntity.ok("Matricula_Inativa");
+    
+    }
+
+
 }
